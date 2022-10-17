@@ -9,15 +9,17 @@ paragraf.classList.add('paragraf');
 
 body.append(input, paragraf);
 
-input.addEventListener('input', () => {
-    timerId;
-    console.log('есть');
+
+let typingTimer;                //timer identifier
+const doneTypingInterval = 300;  //time in ms (0,3 seconds)
+
+input.addEventListener('keyup', () => {
+    clearTimeout(typingTimer);
+    if (input.value) {
+        typingTimer = setTimeout(doneTyping, doneTypingInterval);
+    }
 });
 
-
-const timerId = setInterval(() => {
-    // paragraf.append(input.value);
+function doneTyping() {
     paragraf.innerHTML = input.value;
-}, 300)
-
-timerId;
+};
