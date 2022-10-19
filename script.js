@@ -9,17 +9,20 @@ paragraf.classList.add('paragraf');
 
 body.append(input, paragraf);
 
-
-let typingTimer;                //timer identifier
-const doneTypingInterval = 300;  //time in ms (0,3 seconds)
-
-input.addEventListener('keyup', () => {
-    clearTimeout(typingTimer);
-    if (input.value) {
-        typingTimer = setTimeout(doneTyping, doneTypingInterval);
-    }
-});
-
-function doneTyping() {
-    paragraf.innerHTML = input.value;
+function doneTyping(event) {
+    paragraf.innerHTML = event.target.value;
 };
+
+const debounce = (callback, delay) => {
+    let typingTimer;
+
+    return (...args) => {
+        typingTimer && clearTimeout(typingTimer);
+        typingTimer = setTimeout(() => callback(...args), delay);
+
+    }
+}
+
+const debounceTyping = debounce(doneTyping, 300);
+
+input.addEventListener('input', debounceTyping);
